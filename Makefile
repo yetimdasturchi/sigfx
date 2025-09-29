@@ -6,7 +6,16 @@ SRC_DIR := src
 OBJ_DIR := obj
 BIN     := sigfx
 
-SRCS := $(SRC_DIR)/main.c $(SRC_DIR)/wav.c $(SRC_DIR)/dsp.c $(SRC_DIR)/presets.c
+BENCH ?= 1
+ifeq ($(BENCH),1)
+  CFLAGS += -DBENCH=1
+  SRC_EXTRA := src/bench.c
+else
+  CFLAGS += -DBENCH=0
+  SRC_EXTRA :=
+endif
+
+SRCS := $(SRC_DIR)/main.c $(SRC_DIR)/wav.c $(SRC_DIR)/dsp.c $(SRC_DIR)/presets.c $(SRC_EXTRA)
 
 OBJS := $(SRCS:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
 

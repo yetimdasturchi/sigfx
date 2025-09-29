@@ -2,6 +2,10 @@
 #include "wav.h"
 #include "presets.h"
 
+#if BENCH
+#include "bench.h"
+#endif
+
 int main(int argc, char **argv){
     if (argc < 2){
         fprintf(stderr, "Foydalanish: %s in.wav\n", argv[0]);
@@ -18,6 +22,12 @@ int main(int argc, char **argv){
         fprintf(stderr,"Qo'llab-quvvatlanilmaydigan WAV fayli. Faqatgina PCM 16-bit bo'lishi lozim\n");
         fclose(f); return 1;
     }
+
+    #if BENCH
+        BenchSnapshot s0, s1;
+        bench_snapshot(&s0);
+    #endif
+
     fseek(f, wi.data_offset, SEEK_SET);
     uint32_t nframes = wi.data_size / (wi.num_channels * 2);
 
@@ -67,5 +77,10 @@ int main(int argc, char **argv){
     }
 
     free(buf_orig);
+
+    #if BENCH
+        bench_snapshot(&s1);
+        bench_report_diff(&s0, &s1, "sigfx run");
+    #endif
     return 0;
 }
