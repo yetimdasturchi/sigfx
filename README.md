@@ -1,4 +1,4 @@
-# voxfx
+# sigfx
 
 A tiny C DSP for quick **voice effects**. 
 
@@ -34,7 +34,7 @@ make
 # Usage
 
 ```
-./voxfx in.wav
+./sigfx in.wav
 ```
 
 After converting chech `out/` folder
